@@ -3,12 +3,6 @@ import os
 import uvicorn
 from fastapi import FastAPI
 
-
-
-import sys
-
-
-
 app = FastAPI(title="Events Aggregator")
 
 
