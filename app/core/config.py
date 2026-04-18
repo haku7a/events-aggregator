@@ -9,8 +9,6 @@ class Settings(BaseSettings):
     POSTGRES_PORT: int = 5432
     POSTGRES_DATABASE_NAME: str = "dbname"
 
-    POSTGRES_CONNECTION_STRING: str
-
     @computed_field
     @property
     def DATABASE_URL(self) -> str:
