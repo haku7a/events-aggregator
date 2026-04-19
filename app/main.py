@@ -3,7 +3,13 @@ import os
 import uvicorn
 from fastapi import FastAPI
 
+from app.api.sync_routes import router as sync_router
+from app.infrastructure.events_client import EventsProviderClient
+
 app = FastAPI(title="Events Aggregator")
+app.include_router(sync_router)
+
+client = EventsProviderClient()
 
 
 @app.get("/api/health")
