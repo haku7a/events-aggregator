@@ -19,11 +19,10 @@ from app.usecases import SyncEventsUsecase
 
 logger = logging.getLogger(__name__)
 
-client = EventsProviderClient()
 sync_task: asyncio.Task | None = None
 
 
-async def periodic_sync():
+async def periodic_sync(app: FastAPI):
     await asyncio.sleep(10)
     while True:
         try:
@@ -31,7 +30,9 @@ async def periodic_sync():
                 event_repo = EventRepository(session)
                 sync_repo = SyncStateRepository(session)
                 usecase = SyncEventsUsecase(
-                    client=client, event_repo=event_repo, sync_repo=sync_repo
+                    client=app.state.client,
+                    event_repo=event_repo,
+                    sync_repo=sync_repo,
                 )
                 count = await usecase.execute()
                 await session.commit()
@@ -44,7 +45,8 @@ async def periodic_sync():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     global sync_task
-    sync_task = asyncio.create_task(periodic_sync())
+    app.state.client = EventsProviderClient()
+    sync_task = asyncio.create_task(periodic_sync(app))
     yield
     if sync_task:
         sync_task.cancel()
@@ -52,7 +54,7 @@ async def lifespan(app: FastAPI):
             await sync_task
         except asyncio.CancelledError:
             pass
-    await client.close()
+    await app.state.client.close()
 
 
 app = FastAPI(title="Events Aggregator", lifespan=lifespan)

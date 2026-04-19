@@ -5,18 +5,13 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.api.deps import get_client
 from app.db.repositories import EventRepository, TicketRepository
 from app.db.session import get_session
 from app.infrastructure.events_client import EventsProviderClient
 from app.usecases import CancelTicketUsecase, CreateTicketUsecase
 
 router = APIRouter()
-
-
-def get_client() -> EventsProviderClient:
-    from app.main import client
-
-    return client
 
 
 class CreateTicketRequest(BaseModel):

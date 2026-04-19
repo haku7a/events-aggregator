@@ -3,16 +3,11 @@ from uuid import UUID
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 
+from app.api.deps import get_client
 from app.infrastructure.events_client import EventsProviderClient
 from app.usecases import GetSeatsUsecase
 
 router = APIRouter()
-
-
-def get_client() -> EventsProviderClient:
-    from app.main import client
-
-    return client
 
 
 @router.get("/api/events/{event_id}/seats")
