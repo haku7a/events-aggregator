@@ -9,4 +9,6 @@ class TimestampMixin:
         DateTime(timezone=True), server_default="now()"
     )
 
-    changed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
+    changed_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), server_default="now()"
+    )
