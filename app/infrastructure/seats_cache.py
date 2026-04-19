@@ -1,5 +1,4 @@
 import time
-from typing import Any
 
 
 _seats_cache: dict[str, tuple[list[str], float]] = {}

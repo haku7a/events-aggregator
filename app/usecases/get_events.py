@@ -1,5 +1,4 @@
 from datetime import datetime
-from uuid import UUID
 
 from app.db.repositories.event_repository import EventRepository
 
