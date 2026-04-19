@@ -1,7 +1,9 @@
 import os
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from fastapi.exceptions import RequestValidationError
 
 from app.api.events_routes import router as events_router
 from app.api.seats_routes import router as seats_router
@@ -10,6 +12,11 @@ from app.api.tickets_routes import router as tickets_router
 from app.infrastructure.events_client import EventsProviderClient
 
 app = FastAPI(title="Events Aggregator")
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    return JSONResponse(status_code=400, content={"detail": str(exc)})
 app.include_router(sync_router)
 app.include_router(events_router)
 app.include_router(seats_router)
