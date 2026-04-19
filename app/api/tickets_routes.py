@@ -27,7 +27,7 @@ class CreateTicketRequest(BaseModel):
     seat: str
 
 
-@router.post("/api/tickets/")
+@router.post("/api/tickets", status_code=201)
 async def create_ticket(
     body: CreateTicketRequest,
     session: AsyncSession = Depends(get_session),
@@ -52,7 +52,7 @@ async def create_ticket(
         return JSONResponse(status_code=400, content={"detail": str(e)})
 
 
-@router.delete("/api/tickets/{ticket_id}/")
+@router.delete("/api/tickets/{ticket_id}")
 async def cancel_ticket(
     ticket_id: UUID,
     session: AsyncSession = Depends(get_session),
