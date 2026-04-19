@@ -1,4 +1,4 @@
-from app.db.mixins.timestamps import TimestampMixin
+from .timestamps import TimestampMixin
 
 __all__ = [
     "TimestampMixin",
