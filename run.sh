@@ -1,5 +1,8 @@
+#!/bin/bash
 set -e
+
+sleep 5
 
 alembic upgrade head
 
-exec python app/main.py
+exec python -m app.main
