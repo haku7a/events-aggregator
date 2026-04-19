@@ -11,7 +11,7 @@ class EventsProviderClient:
         self.api_key = settings.EVENTS_PROVIDER_API_KEY.get_secret_value()
 
         self.client = httpx.AsyncClient(
-            headers={"x-api-key": self.api_key}, timeout=10.0
+            headers={"x-api-key": self.api_key}, timeout=10.0, follow_redirects=True
         )
 
     async def close(self):
