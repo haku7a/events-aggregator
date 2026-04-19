@@ -1,5 +1,5 @@
-from pydantic import computed_field
-from pydantic_settings import BaseSettings
+from pydantic import SecretStr, computed_field
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -8,6 +8,11 @@ class Settings(BaseSettings):
     POSTGRES_HOST: str = "localhost"
     POSTGRES_PORT: int = 5432
     POSTGRES_DATABASE_NAME: str = "dbname"
+
+    EVENTS_PROVIDER_BASE_URL: str
+    EVENTS_PROVIDER_API_KEY: SecretStr
+
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 
     @computed_field
     @property
