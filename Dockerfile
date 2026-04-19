@@ -19,9 +19,12 @@ COPY --from=builder /app/.venv /app/.venv
 
 COPY --chown=appuser:appuser app/ ./app/
 
+COPY --chown=appuser:appuser run.sh .
+
 ENV PATH="/app/.venv/bin:$PATH"
+
+RUN chmod +x run.sh
 
 USER appuser
 
-CMD ["python", "app/main.py"]
-
+CMD ["./run.sh"]
